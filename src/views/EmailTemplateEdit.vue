@@ -1,13 +1,13 @@
 <template>
   <div class="email-template-edit-view">
     <div class="tpl-editor__header">
-      <h2>{{ isNew ? 'New Template' : (template ? template.event_type : 'Email Template') }}</h2>
+      <h2>{{ isNew ? $t('email.new_template') : (template ? template.event_type : $t('email.email_template')) }}</h2>
       <div class="tpl-editor__actions">
         <router-link
           to="/admin/email/templates"
           class="btn btn--ghost"
         >
-          Cancel
+          {{ $t('email.cancel') }}
         </router-link>
         <button
           v-if="!isNew && template"
@@ -15,14 +15,14 @@
           :disabled="saving"
           @click="remove"
         >
-          Delete
+          {{ $t('email.delete') }}
         </button>
         <button
           class="btn btn--primary"
           :disabled="saving"
           @click="save"
         >
-          {{ saving ? 'Saving…' : 'Save' }}
+          {{ saving ? $t('email.saving') : $t('email.save') }}
         </button>
         <span
           v-if="savedMsg"
@@ -35,13 +35,13 @@
       v-if="loading"
       class="cms-table__empty"
     >
-      Loading…
+      {{ $t('email.loading') }}
     </div>
     <div
       v-else-if="!isNew && !template"
       class="tpl-error"
     >
-      Template not found.
+      {{ $t('email.template_not_found') }}
     </div>
 
     <template v-else>
@@ -49,14 +49,14 @@
         v-if="!isNew && template && !form.is_active"
         class="tpl-inactive-warning"
       >
-        This template is inactive — no emails will be sent for this event.
+        {{ $t('email.inactive_warning') }}
       </div>
 
       <!-- Meta card -->
       <div class="card">
         <div class="meta-grid">
           <div class="field-group">
-            <label class="field-label">Event Type</label>
+            <label class="field-label">{{ $t('email.event_type') }}</label>
             <select
               v-model="form.event_type"
               class="field-input"
@@ -72,7 +72,7 @@
           </div>
           <div class="field-group">
             <label class="field-label">
-              Subject <span class="field-hint">(Jinja2 template)</span>
+              {{ $t('email.subject') }} <span class="field-hint">{{ $t('email.subject_hint') }}</span>
             </label>
             <input
               v-model="form.subject"
@@ -85,7 +85,7 @@
               <input
                 v-model="form.is_active"
                 type="checkbox"
-              > Active
+              > {{ $t('email.is_active') }}
             </label>
           </div>
         </div>
@@ -132,14 +132,14 @@
                 class="btn btn--sm"
                 @click="loadPreview"
               >
-                Refresh Preview
+                {{ $t('email.refresh_preview') }}
               </button>
             </div>
             <div
               v-if="preview"
               class="tpl-preview__subject"
             >
-              <strong>Subject:</strong> {{ preview.subject }}
+              <strong>{{ $t('email.preview_subject') }}</strong> {{ preview.subject }}
             </div>
             <iframe
               v-if="preview"
@@ -151,7 +151,7 @@
               v-else
               class="tpl-preview__hint"
             >
-              Click "Refresh Preview" to render with example data.
+              {{ $t('email.preview_hint') }}
             </p>
           </div>
         </div>
@@ -163,15 +163,15 @@
         class="card"
       >
         <h3 class="section-title">
-          Available Variables
+          {{ $t('email.variables') }}
         </h3>
         <table class="cms-table vars-table">
           <thead>
             <tr>
-              <th>Variable</th>
-              <th>Type</th>
-              <th>Example</th>
-              <th>Description</th>
+              <th>{{ $t('email.variable_name') }}</th>
+              <th>{{ $t('email.variable_type') }}</th>
+              <th>{{ $t('email.variable_example') }}</th>
+              <th>{{ $t('email.variable_description') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -194,7 +194,7 @@
       <!-- Test send card -->
       <div class="card">
         <h3 class="section-title">
-          Send Test Email
+          {{ $t('email.send_test_email') }}
         </h3>
         <div class="tpl-test-send">
           <input
@@ -209,7 +209,7 @@
             :disabled="!testEmail"
             @click="sendTest"
           >
-            Send Test
+            {{ $t('email.send_test') }}
           </button>
           <span
             v-if="testMsg"

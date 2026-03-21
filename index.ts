@@ -11,6 +11,13 @@
 import type { IPlugin, IPlatformSDK } from 'vbwd-view-component'
 import { extensionRegistry } from '../../vue/src/plugins/extensionRegistry'
 import en from './locales/en.json'
+import de from './locales/de.json'
+import es from './locales/es.json'
+import fr from './locales/fr.json'
+import ja from './locales/ja.json'
+import ru from './locales/ru.json'
+import th from './locales/th.json'
+import zh from './locales/zh.json'
 
 const SETTINGS_ITEMS = [
   { label: 'Email Templates', to: '/admin/email/templates' },
@@ -22,7 +29,15 @@ export const emailAdminPlugin: IPlugin = {
   description: 'Transactional email template editor',
 
   install(sdk: IPlatformSDK) {
+    // Translations
     sdk.addTranslations('en', { email: (en as Record<string, unknown>)['email'] })
+    sdk.addTranslations('de', { email: (de as Record<string, unknown>)['email'] })
+    sdk.addTranslations('es', { email: (es as Record<string, unknown>)['email'] })
+    sdk.addTranslations('fr', { email: (fr as Record<string, unknown>)['email'] })
+    sdk.addTranslations('ja', { email: (ja as Record<string, unknown>)['email'] })
+    sdk.addTranslations('ru', { email: (ru as Record<string, unknown>)['email'] })
+    sdk.addTranslations('th', { email: (th as Record<string, unknown>)['email'] })
+    sdk.addTranslations('zh', { email: (zh as Record<string, unknown>)['email'] })
 
     extensionRegistry.register('email-admin', { settingsItems: SETTINGS_ITEMS })
 

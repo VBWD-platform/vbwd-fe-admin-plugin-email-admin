@@ -1,19 +1,19 @@
 <template>
   <div class="email-templates-view">
     <div class="cms-list__header">
-      <h1>Email Templates</h1>
+      <h1>{{ $t('email.title') }}</h1>
       <div class="cms-list__actions">
         <input
           v-model="query"
           type="search"
-          placeholder="Search templates…"
+          :placeholder="$t('email.search_placeholder')"
           class="cms-list__search"
         >
         <button
           class="btn btn--primary"
           @click="$router.push('/admin/email/templates/new')"
         >
-          + New Template
+          {{ $t('email.add_template') }}
         </button>
       </div>
     </div>
@@ -23,30 +23,30 @@
       v-if="selectedIds.size > 0"
       class="cms-list__bulk-bar"
     >
-      <span>{{ selectedIds.size }} selected</span>
+      <span>{{ selectedIds.size }} {{ $t('email.selected') }}</span>
       <button
         class="btn btn--sm"
         @click="exportSelected"
       >
-        Export
+        {{ $t('email.export') }}
       </button>
       <button
         class="btn btn--sm"
         @click="bulkSetActive(true)"
       >
-        Activate
+        {{ $t('email.activate') }}
       </button>
       <button
         class="btn btn--sm"
         @click="bulkSetActive(false)"
       >
-        Deactivate
+        {{ $t('email.deactivate') }}
       </button>
       <button
         class="btn btn--sm btn--danger"
         @click="bulkDelete"
       >
-        Delete
+        {{ $t('email.delete') }}
       </button>
     </div>
 
@@ -54,7 +54,7 @@
       v-if="store.loading"
       class="cms-table__empty"
     >
-      Loading…
+      {{ $t('email.loading') }}
     </div>
     <div
       v-else-if="store.error"
@@ -80,25 +80,25 @@
             class="sortable"
             @click="sort('event_type')"
           >
-            Event Type <span v-if="sortBy === 'event_type'">{{ sortDir === 'asc' ? '▲' : '▼' }}</span>
+            {{ $t('email.event_type') }} <span v-if="sortBy === 'event_type'">{{ sortDir === 'asc' ? '▲' : '▼' }}</span>
           </th>
           <th
             class="sortable"
             @click="sort('subject')"
           >
-            Subject <span v-if="sortBy === 'subject'">{{ sortDir === 'asc' ? '▲' : '▼' }}</span>
+            {{ $t('email.subject') }} <span v-if="sortBy === 'subject'">{{ sortDir === 'asc' ? '▲' : '▼' }}</span>
           </th>
           <th
             class="sortable"
             @click="sort('is_active')"
           >
-            Active <span v-if="sortBy === 'is_active'">{{ sortDir === 'asc' ? '▲' : '▼' }}</span>
+            {{ $t('email.is_active') }} <span v-if="sortBy === 'is_active'">{{ sortDir === 'asc' ? '▲' : '▼' }}</span>
           </th>
           <th
             class="sortable"
             @click="sort('updated_at')"
           >
-            Updated <span v-if="sortBy === 'updated_at'">{{ sortDir === 'asc' ? '▲' : '▼' }}</span>
+            {{ $t('email.updated') }} <span v-if="sortBy === 'updated_at'">{{ sortDir === 'asc' ? '▲' : '▼' }}</span>
           </th>
         </tr>
       </thead>
@@ -127,7 +127,7 @@
           </td>
           <td @click="$router.push(`/admin/email/templates/${tpl.id}/edit`)">
             <span :class="['tpl-badge', tpl.is_active ? 'tpl-badge--active' : 'tpl-badge--inactive']">
-              {{ tpl.is_active ? 'Active' : 'Inactive' }}
+              {{ tpl.is_active ? $t('email.is_active') : $t('email.inactive') }}
             </span>
           </td>
           <td @click="$router.push(`/admin/email/templates/${tpl.id}/edit`)">
@@ -140,10 +140,10 @@
             class="cms-table__empty"
           >
             <template v-if="query">
-              No templates match "{{ query }}".
+              {{ $t('email.no_templates_match', { query }) }}
             </template>
             <template v-else>
-              No templates found. Run <code>./plugins/email/bin/populate-db.sh</code> to seed defaults.
+              {{ $t('email.no_templates_seed', { command: './plugins/email/bin/populate-db.sh' }) }}
             </template>
           </td>
         </tr>
