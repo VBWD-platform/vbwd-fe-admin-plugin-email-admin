@@ -1,5 +1,8 @@
 <template>
-  <div ref="editorEl" class="code-editor-wrap" />
+  <div
+    ref="editorEl"
+    class="code-editor-wrap"
+  />
 </template>
 
 <script setup lang="ts">
