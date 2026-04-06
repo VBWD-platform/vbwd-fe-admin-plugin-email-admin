@@ -20,7 +20,7 @@ import th from './locales/th.json'
 import zh from './locales/zh.json'
 
 const SETTINGS_ITEMS = [
-  { label: 'Email Templates', to: '/admin/email/templates' },
+  { label: 'Email Templates', to: '/admin/email/templates', requiredPermission: 'email.templates.view' },
 ]
 
 export const emailAdminPlugin: IPlugin = {
@@ -45,18 +45,21 @@ export const emailAdminPlugin: IPlugin = {
       path: 'email/templates',
       name: 'email-templates',
       component: () => import('./src/views/EmailTemplateList.vue'),
+      meta: { requiredPermission: 'email.templates.view' },
     })
 
     sdk.addRoute({
       path: 'email/templates/new',
       name: 'email-template-new',
       component: () => import('./src/views/EmailTemplateEdit.vue'),
+      meta: { requiredPermission: 'email.templates.manage' },
     })
 
     sdk.addRoute({
       path: 'email/templates/:id/edit',
       name: 'email-template-edit',
       component: () => import('./src/views/EmailTemplateEdit.vue'),
+      meta: { requiredPermission: 'email.templates.view' },
     })
   },
 

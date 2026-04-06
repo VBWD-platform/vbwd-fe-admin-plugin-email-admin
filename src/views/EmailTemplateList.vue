@@ -10,6 +10,7 @@
           class="cms-list__search"
         >
         <button
+          v-if="canManage"
           class="btn btn--secondary"
           @click="triggerImport"
         >
@@ -23,6 +24,7 @@
           @change="handleImport"
         >
         <button
+          v-if="canManage"
           class="btn btn--primary"
           @click="$router.push('/admin/email/templates/new')"
         >
@@ -44,18 +46,21 @@
         {{ $t('email.export') }}
       </button>
       <button
+        v-if="canManage"
         class="btn btn--sm"
         @click="bulkSetActive(true)"
       >
         {{ $t('email.activate') }}
       </button>
       <button
+        v-if="canManage"
         class="btn btn--sm"
         @click="bulkSetActive(false)"
       >
         {{ $t('email.deactivate') }}
       </button>
       <button
+        v-if="canManage"
         class="btn btn--sm btn--danger"
         @click="bulkDelete"
       >
@@ -168,10 +173,14 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, reactive } from 'vue'
 import { api } from '@/api'
+import { useAuthStore } from '@/stores/auth'
 import { useEmailStore } from '../stores/useEmailStore'
 import type { EmailTemplate } from '../stores/useEmailStore'
 
+const authStore = useAuthStore()
 const store = useEmailStore()
+
+const canManage = computed(() => authStore.hasPermission('email.templates.manage'))
 
 const query = ref('')
 const sortBy = ref<keyof EmailTemplate>('event_type')

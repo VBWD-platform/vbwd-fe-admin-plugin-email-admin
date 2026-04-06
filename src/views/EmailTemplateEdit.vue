@@ -10,7 +10,7 @@
           {{ $t('email.cancel') }}
         </router-link>
         <button
-          v-if="!isNew && template"
+          v-if="canManage && !isNew && template"
           class="btn btn--danger"
           :disabled="saving"
           @click="remove"
@@ -18,6 +18,7 @@
           {{ $t('email.delete') }}
         </button>
         <button
+          v-if="canManage"
           class="btn btn--primary"
           :disabled="saving"
           @click="save"
@@ -224,12 +225,16 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import { useEmailStore } from '../stores/useEmailStore'
 import CodeEditor from '../components/CodeEditor.vue'
 
 const route = useRoute()
 const router = useRouter()
+const authStore = useAuthStore()
 const store = useEmailStore()
+
+const canManage = computed(() => authStore.hasPermission('email.templates.manage'))
 
 const id = route.params.id as string | undefined
 const isNew = !id || id === 'new'
